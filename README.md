@@ -8,7 +8,6 @@ Produit par le pôle Info du ©C7
 
 **2018-2019** : Création du projet, choix de la techno et création du squelette \
 Paul YEME (1A), Baudouin DANEL (1A), Wassim BOUZIT (1A), Tanguy HOUETTE (1A) \
-Contact : *tanguy.houette@student-cs.fr*
 
 **2019-2020** : Minimal Valuable Product - Navigations et la V0 de tous les onglets \
 Tanguy HOUETTE (2A), Tancrède DE GUIGNE (1A), Pascal RAILLE (1A), Saad CHTOUKI (1A), Corentin DELLOYE (1A)\
