@@ -1,8 +1,10 @@
 {
-  "urlRandomness": "e3-sxi",
-  "hostType": "localhost",
+  "urlRandomness": "ar-dq5",
+  "hostType": "lan",
   "lanType": "ip",
   "dev": true,
   "minify": false,
-  "https": false
+  "https": false,
+  "scheme": null,
+  "devClient": false
 }

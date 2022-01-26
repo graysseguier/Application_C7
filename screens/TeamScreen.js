@@ -1,73 +1,289 @@
 // IPMORTS
 import React from 'react';
-import { Platform, ScrollView, StyleSheet, Text, View} from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Platform, ScrollView, StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator} from 'react-native';
+import { ListItem, Avatar } from 'react-native-elements';
+import * as firebase from 'firebase'
+import 'firebase/firestore';
+import AffichageEquipe from "../components/AffichageEquipe"
 
 import CustomHeader from '../components/CustomHeader';
+import { Button } from 'native-base';
 
 // CONSTANTS :
 
-const list = [
-  {
-    title: 'Equipe 1',
-    icon: 'add-circle-outline'
-  },
-  {
-    title: 'Equipe 2',
-    icon: 'add-circle-outline'
-  },
-]
+
 
 // COMPONENT :
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
+  
 
 class TeamScreen extends React.Component {
 
 
+  constructor(props){
+    super(props)
+    this.state=({
+    masculin:true,donneesF:[],teamsF:[], teamsH:[], donneesH : [], loading:true
+      })
+  }
+  
+  _displayLoading() {
+    if (this.state.loading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size='large' />
+        </View>
+      )
+    }
+  }
+
+// Chargement des données
+  componentDidMount(){
+    this._loadDataF()
+    this._loadDataH()
+    this.setState({
+      loading : true
+    })
+  }
+
+  
+  _loadDataF(){
+    this.setState({donneesF:[]},()=>{
+        var that=this
+        
+        var db = firebase.firestore();
+    
+        var docRef = db.collection("Equipes").doc("Femmes").collection("Femmes")
+        docRef.get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                var match=doc.data()
+                that.setState({donneesF:that.state.donneesF.concat(match)})
+                
+                
+            });
+        })
+        .then(()=>this.loadTeamsF())
+        .catch(function(error) {
+            console.log("Error getting document:", error);
+        })
+        .then(()=>this.setState({loading:false}))
+        
+    }
+    )
+  }
+  _loadDataH(){
+    this.setState({donneesH:[]},()=>{
+        var that=this
+        
+        var db = firebase.firestore();
+    
+        var docRef = db.collection("Equipes").doc("Hommes").collection("Hommes")
+        docRef.get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                var match=doc.data()
+                that.setState({donneesH:that.state.donneesH.concat(match)})
+                
+                
+            });
+        })
+        .then(()=>this.loadTeamsH())
+        .catch(function(error) {
+            console.log("Error getting document:", error);
+        })
+        .then(()=>this.setState({loading:false}))
+        
+    }
+    )
+  }
+
+  loadTeamsF(){
+        
+    var listeTeamsF=this.state.donneesF
+    longueur=listeTeamsF.length
+    
+    var teamsF=[]
+
+    
+    for (i=0;i<longueur;i++){
+        
+        var team=listeTeamsF[i]
+        var teamName={name : team.Name}
+        var image = {image : team.image}
+        var texte = {texte : team.texte}
+        teamsF.push({teamName,image, texte})
+        
+    }
+    
+    this.setState({teamsF:teamsF})
+  }
+  loadTeamsH(){
+        
+    var listeTeamsH=this.state.donneesH
+    longueur=listeTeamsH.length
+    
+    var teamsH=[]
+
+    
+    for (i=0;i<longueur;i++){
+        
+        var team=listeTeamsH[i]
+        var teamName={name : team.Name}
+        var image = {image : team.image}
+        var texte = {texte : team.texte}
+         
+        teamsH.push({teamName,image, texte})
+        
+    }
+    
+    this.setState({teamsH:teamsH})
+  }
+
+  colorTab(){
+    return('#549E5E')
+  }
+  colorBord(){
+    return('#202421')
+  }
+
+  styleBox(genre){
+    if (genre==='masculin'){
+      if (this.state.masculin){
+        return({flex:1,backgroundColor:'white',marginLeft:10,marginRight:5,marginVertical:8,borderWidth:1,borderColor:this.colorBord(),borderRadius:5,justifyContent:'center',alignItems:'center', flexGrow : 1})
+      }
+      else{
+        return({flex:1,backgroundColor:this.colorTab(), marginLeft:10,marginRight:5,marginVertical:8,borderWidth:1,borderColor:this.colorBord(),borderRadius:5,justifyContent:'center',alignItems:'center', flexGrow : 1})
+      }
+    }
+    else{
+      if (this.state.masculin){
+        return({flex:1,backgroundColor:this.colorTab(), marginLeft:5,marginRight:10,marginVertical:8,borderWidth:1,borderColor:this.colorBord(),borderRadius:5,justifyContent:'center',alignItems:'center',flexGrow : 1})
+      }
+      else{
+        return({flex:1,backgroundColor:'white',marginLeft:5,marginRight:10,marginVertical:8,borderWidth:1,borderColor:this.colorBord(),borderRadius:5,justifyContent:'center',alignItems:'center', flexGrow : 1})
+      }
+    }
+  }
+
+  styleText(genre){
+    if (genre==='masculin'){
+      if(this.state.masculin){
+        return({color:this.colorTab(), fontWeight:'bold'})
+      }
+      else{
+      return({color:'white', fontWeight:'bold'})
+      }
+    }
+    else{
+      if (this.state.masculin){
+        return({color:'white', fontWeight:'bold'})
+      }
+      else{
+        return({color:this.colorTab(), fontWeight:'bold'})
+      }
+    }
+  }
+
+  changeMasculin1(){
+    this.setState({masculin:true})
+  }
+  changeMasculin2(){
+    this.setState({masculin:false})
+  }
+  
+  displayVue(){  
+    
+    if (this.state.masculin){
+      return(
+        <ScrollView 
+        
+        >
+        {
+          this.state.teamsH.map((item, i) => (
+           
+            <AffichageEquipe
+              team={item}
+              
+              key={i}
+              //title={item.name}
+              bottomDivider
+              chevron
+              masculin = {true}
+              
+            />
+          ))
+        }
+
+    </ScrollView>
+      )
+    }
+    else{
+      
+      return(
+      
+        <ScrollView>
+          
+            {
+              this.state.teamsF.map((item, i) => (
+               
+                <AffichageEquipe
+                  team={item}
+                  
+                  key={i}
+                  //title={item.name}
+                  bottomDivider
+                  chevron
+                  masculin = {false}
+                  
+                />
+              ))
+            }
+
+        </ScrollView>
+      )
+    }
+  }
+
+
   render() {
+    //console.log(this.props)
     return (
+      
+      
       <View style={{flex:1}}>
+          
         <View style={{flex:1}}>
           <CustomHeader title="Teams" isHome={true} navigation={this.props.navigation} />
+          
         </View>
 
-        <View style={{flex:11}}>
-          <ScrollView>
-            <View style={styles.titleView}>
-              <Text style={styles.titleText}>Femmes</Text>
-            </View>
-            {
-              list.map((item, i) => (
-                <ListItem
-                  key={i}
-                  title={item.title}
-                  leftIcon={{ name: item.icon }}
-                  bottomDivider
-                  chevron
-                  onPress={() => this.props.navigation.navigate("PdfScreen")}
-                />
-              ))
-            }
-            <View style={styles.titleView}>
-              <Text style={styles.titleText}>Hommes</Text>
-            </View>
-            {
-              list.map((item, i) => (
-                <ListItem
-                  key={i}
-                  title={item.title}
-                  leftIcon={{ name: item.icon }}
-                  bottomDivider
-                  chevron
-                  onPress={() => this.props.navigation.navigate("PdfScreen")}
-                />
-              ))
-            }
-          </ScrollView>
+        <View style={{flex:1, flexDirection:'row',height:50, margin : 5}}>
+          <View style={{flex:1}}>
+          <TouchableOpacity onPress={()=>this.changeMasculin1()} style={this.styleBox('masculin')}>
+            <Text style={this.styleText('masculin')}>MEN</Text>
+          </TouchableOpacity>
+          </View>
+          <View style={{flex:1}}>
+          <TouchableOpacity onPress={()=>this.changeMasculin2()} style={this.styleBox('feminin')} >
+            <Text style={this.styleText('feminin')}>WOMEN</Text>
+          </TouchableOpacity>
+          
+          </View>
         </View>
+
+
+        <View style={{flex:11}}>
+          {this._displayLoading()}
+          {this.displayVue()}
+          
+        </View>
+        
       </View>
     );
   }
-
 }
 
 
@@ -170,6 +386,17 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 35,
     color:'white'
+  },
+  corr : {
+    flexGrow : 1
+  },
+  image: {
+    height: 169,
+    margin: 5
+  },
+  bouton : {
+    height: 169,
+    margin: 5
   }
 });
 
