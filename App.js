@@ -18,14 +18,14 @@ import 'firebase/firestore';
 //Rajouter les liaisons avec la base de donnée
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDP_Dbevczlh2eN1Zo9AyUvLZICoxnKhIc",
-    authDomain: "fzdf-2c9ff.firebaseapp.com",
-    databaseURL: "https://fzdf-2c9ff.firebaseio.com",
-    projectId: "fzdf-2c9ff",
-    storageBucket: "fzdf-2c9ff.appspot.com",
-    messagingSenderId: "750961760063",
-    appId: "1:750961760063:web:9ca0c45a75f67663c8e58a"
-  };
+  apiKey: "AIzaSyCwOoDEDQoWXet9z5rPjPyFVMQfCF_idzc",
+  authDomain: "projetc7-3362e.firebaseapp.com",
+  projectId: "projetc7-3362e",
+  storageBucket: "projetc7-3362e.appspot.com",
+  messagingSenderId: "221332824752",
+  appId: "1:221332824752:web:d7b1840ca4820fb54e1175",
+  measurementId: "G-LX3XVQDDDH"
+};
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);

@@ -1,8 +1,23 @@
 // IMPORTS
-import { createStackNavigator} from 'react-navigation';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 
 import TestScreen from '../../screens/TestScreen';
 import BarreMenu from '../../components/BarreMenu';
+
+const Stack = createNativeStackNavigator();
+
+function TestStack() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+                <Stack.Screen name="Test" component={TestScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+}
+
+/*
 // Constants :
 
 const screens = {
@@ -21,5 +36,6 @@ const TestStack = createStackNavigator(
   }
   }
 );
+*/
 
 export default TestStack;

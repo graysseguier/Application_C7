@@ -1,7 +1,21 @@
 // IMPORTS
-import { createStackNavigator} from 'react-navigation';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import SatisfactionScreen from '../../screens/SatisfactionScreen';
 
+const Stack = createNativeStackNavigator();
+
+function SatisfactionStack() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Satisfaction" component={SatisfactionScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+}
+
+/*
 // Constants :
 
 const screens = {
@@ -16,5 +30,6 @@ const SatisfactionStack = createStackNavigator(
     header: null
   }}
 );
+*/
 
 export default SatisfactionStack;

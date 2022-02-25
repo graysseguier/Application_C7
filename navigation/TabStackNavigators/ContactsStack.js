@@ -1,7 +1,21 @@
 // IMPORTS
-import { createStackNavigator} from 'react-navigation';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import ContactsScreen from '../../screens/ContactsScreen';
 
+const Stack = createNativeStackNavigator();
+
+function ContactsStack() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+                <Stack.Screen name="Contacts" component={ContactsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
+}
+
+/*
 // Constants :
 
 const screens = {
@@ -17,5 +31,6 @@ const ContactsStack = createStackNavigator(
   }
   }
 );
+*/
 
 export default ContactsStack;

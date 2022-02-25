@@ -1,6 +1,8 @@
 //IMPORTS
 import React from 'react';
-import {  createBottomTabNavigator, createAppContainer, createDrawerNavigator, createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, createStackNavigator } from 'react-navigation';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import { AntDesign,FontAwesome ,Entypo } from '@expo/vector-icons';
 import { Platform } from 'react-native';
 
@@ -28,6 +30,42 @@ import PartnersScreen from '../screens/PartnersScreen';
 
 // NAVIGATION :
 
+const Tab = createBottomTabNavigator();
+
+function TabNavigator() {
+  return(
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color }) => {
+            let sourceImage;
+
+            if (route.name === 'Program') {
+              return(
+                <FontAwesome name="calendar" size={30} color={color} />
+              );
+            } else if (route.name === 'Results') {
+              return(
+                <FontAwesome name="trophy" size={30} color={color} />
+              );
+            } else if (route.name === 'Map') {
+              return(
+                <FontAwesome name="map" size={30} color={color} />
+              );
+            }
+          }
+        })
+        }
+      >
+        <Tab.screen name="Program" component={ProgramStack} />
+        <Tab.Screen name="Results" component={ResultsStack} />
+        <Tab.Screen name="Map" component={MapStack} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  )
+}
+
+/*
 // Bottom Tab Navigator (qui regroupe les onglets les plus utilisés - surtout ceux adressés au public)
 
 const BottomTabNavigator = createBottomTabNavigator({
@@ -67,7 +105,7 @@ const BottomTabNavigator = createBottomTabNavigator({
     tabBarOptions: { activeTintColor:'#549E5E'}
   }
 );
-
+*/
 
 // A AJOUTER QUAND L'ONGLET INFO SER REMPlI
 
@@ -86,6 +124,7 @@ const BottomTabNavigator = createBottomTabNavigator({
   },
 */
 
+/*
 // Mise ne place du Drawer Navigator
 
 const screens = {
@@ -146,7 +185,27 @@ const screens = {
       }
     },
   };
+*/
 
+const Drawer = createDrawerNavigator();
+
+function DrawerNavigator() {
+  return(
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={TabNavigator} />
+        <Drawer.Screen name="Teams" component={TeamStack} />
+        <Drawer.Screen name="Contacts" component={ContactsStack} />
+        <Drawer.Screen name="Staff" component={StaffStack} />
+        <Drawer.Screen name="Partners" component={PartnersScreen} />
+        <Drawer.Screen name="Satisfaction" component={SatisfactionStack} />
+        <Drawer.Screen name="Bug" component={BugStack} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  )
+}
+
+/*
 const DrawerNavigator = createDrawerNavigator(
   screens,
   {
@@ -159,6 +218,7 @@ const DrawerNavigator = createDrawerNavigator(
   }
 
 )
+*/
 
 // EXPORT :
 export default createAppContainer(
