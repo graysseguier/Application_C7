@@ -7,7 +7,7 @@ import IconEntypo from 'react-native-vector-icons/Entypo';
 import centrale7 from '../assets/images/centrale-7.png';
 import Constants from 'expo-constants';
 
-import {DrawerItems} from 'react-navigation-drawer';
+import {DrawerItemList} from '@react-navigation/drawer';
 
 
 //COMPONENTS :

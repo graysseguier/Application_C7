@@ -6,7 +6,7 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title} from 'native
 import {TouchableOpacity} from "react-native"
 import Constants from 'expo-constants';
 import {StatusBar} from 'react-native';
-import { NavigationContainer } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
 
 import icon from '../assets/images/icon.png';
 
